@@ -148,7 +148,7 @@ class SequenceFolder(data.Dataset):
 						sample['ref_depths'].append('./scannet/'/scene/'depth/'/(j[:-4]+'.npy'))
 						sample['pose_src'].append('./scannet/'/scene/'pose/'/(j[:-4]+'.txt'))
 					sequence_set.append(sample)
-				pickle.dump(sequence_set,open("./scannet/scan_"+self.ttype[:-4]+"new_dump.pkl",'wb'))
+				#pickle.dump(sequence_set,open("./scannet/scan_"+self.ttype[:-4]+"new_dump.pkl",'wb'))
 		elif self.dataset == 'sceneflow':
 			self.scenes = set()
 			if os.path.exists("./sceneflow/sflow_" + self.ttype[:-4] + "_dump.pkl"):
@@ -181,7 +181,7 @@ class SequenceFolder(data.Dataset):
 						sample['pose_src'].append(pose_src)
 					sequence_set.append(sample)
 				self.scenes = list(sorted(self.scenes))
-				pickle.dump(sequence_set, open("./sceneflow/sflow_" + self.ttype[:-4] + "_dump.pkl", "wb"))
+				#pickle.dump(sequence_set, open("./sceneflow/sflow_" + self.ttype[:-4] + "_dump.pkl", "wb"))
 		elif self.dataset == 'kitti2015':
 			self.scenes = set()
 			if os.path.exists("./kitti2015/kitti2015_" + self.ttype[:-4] + "_dump.pkl"):
@@ -207,7 +207,7 @@ class SequenceFolder(data.Dataset):
 						sample['ref_poses'].append(np.array([[[1.0, 0.0, 0.0,-0.539], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0,0.0]]]).astype(np.float32))
 					sequence_set.append(sample)
 					self.scenes = list(sorted(self.scenes))
-				pickle.dump(sequence_set, open("./kitti2015/kitti2015_" + self.ttype[:-4] + "_dump.pkl", "wb"))
+				#pickle.dump(sequence_set, open("./kitti2015/kitti2015_" + self.ttype[:-4] + "_dump.pkl", "wb"))
 		elif self.dataset == 'kitti2012':
 			self.scenes = set()
 			if os.path.exists("./kitti2012/kitti2012_" + self.ttype[:-4] + "_dump.pkl"):
@@ -233,7 +233,7 @@ class SequenceFolder(data.Dataset):
 						sample['ref_poses'].append(np.array([[[1.0, 0.0, 0.0,-0.539], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0,0.0]]]).astype(np.float32))
 					sequence_set.append(sample)
 					self.scenes = list(sorted(self.scenes))
-				pickle.dump(sequence_set, open("./kitti2012/kitti2012_" + self.ttype[:-4] + "_dump.pkl", "wb"))
+				#pickle.dump(sequence_set, open("./kitti2012/kitti2012_" + self.ttype[:-4] + "_dump.pkl", "wb"))
 		else:
 			if os.path.exists("./dataset/demon_"+self.ttype[:-4]+"_dump.pkl"):
 				sequence_set = pickle.load(open("./dataset/demon_"+self.ttype[:-4] + "_dump.pkl",'rb'))
@@ -264,20 +264,20 @@ class SequenceFolder(data.Dataset):
 
 						img = imgs[i]
 						gt_nmap = "./dataset/new_normals/" + ntpath.basename(scene) + "/" + ntpath.basename(img)[:-4]+"_normal.npy"
-						depth = img.dirname()/'in_'+img.name[:-4] + '.npy'
+						depth = img.dirname()/''+img.name[:-4] + '.npy'
 						pose_tgt = np.concatenate((poses[i,:].reshape((3,4)), np.array([[0,0,0,1]])), axis=0)
 						#sample = {'intrinsics': intrinsics, 'tgt': img, 'tgt_depth': depth, 'tgt_nmap': nmap ,  'ref_imgs': [], 'ref_poses': [], 'gt_nmap': gt_nmap, 'ref_depths': []}
 						sample = {'intrinsics': intrinsics, 'tgt': img, 'tgt_depth': depth,  'ref_imgs': [], 'ref_poses': [], 'gt_nmap': gt_nmap, 'ref_depths': []}
 						for j in shifts:
 							sample['ref_imgs'].append(imgs[j])
-							sample['ref_depths'].append(imgs[j].dirname()/'in_'+imgs[j].name[:-4] + '.npy')
+							sample['ref_depths'].append(imgs[j].dirname()/''+imgs[j].name[:-4] + '.npy')
 							pose_src = np.concatenate((poses[j,:].reshape((3,4)), np.array([[0,0,0,1]])), axis=0)
 							pose_rel = pose_src @ np.linalg.inv(pose_tgt)
 							pose = pose_rel[:3,:].reshape((1,3,4)).astype(np.float32)
 							sample['ref_poses'].append(pose)
 						
 						sequence_set.append(sample)
-				pickle.dump(sequence_set,open("./dataset/demon_"+self.ttype[:-4]+"_dump.pkl",'wb'))
+				#pickle.dump(sequence_set,open("./dataset/demon_"+self.ttype[:-4]+"_dump.pkl",'wb'))
 
 		if self.ttype == 'train.txt':
 		    random.shuffle(sequence_set)

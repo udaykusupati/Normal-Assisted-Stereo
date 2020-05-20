@@ -83,6 +83,8 @@ parser.add_argument('-cw','--c-weight', type=float ,default=0.1, help='weight of
 
 parser.add_argument('-tc', dest='train_cons', action='store_true',
                     help='Train Unet for consistency loss')
+parser.add_argument('-np', dest='no_pool', action='store_true',
+                    help='Less pooling layers in Nnet. Even with more pooling layers, the performance change is insignificant. One of our pretrained models happens to have less pooling layers')
 
 n_iter = 0
 
@@ -149,12 +151,12 @@ def main():
     # create model
     print("=> creating model")
 
-    mvdnet = MVDNet(args.nlabel, args.mindepth).cuda()
+    mvdnet = MVDNet(args.nlabel, args.mindepth, no_pool = args.no_pool).cuda()
     mvdnet.init_weights()
     if args.pretrained_mvdn:
         print("=> using pre-trained weights for MVDNet")
         weights = torch.load(args.pretrained_mvdn)   
-        mvdnet.load_state_dict(weights['state_dict'], strict = False)
+        mvdnet.load_state_dict(weights['state_dict'])
     
     depth_cons = DepthCons().cuda()
     depth_cons.init_weights()
@@ -293,7 +295,6 @@ def train(args, train_loader, mvdnet, depth_cons, cons_loss_, optimizer, epoch_s
             nmap = nmap1.permute(0,3,1,2) 
             depths = [output_depth1.squeeze(1)]
 
-        
         loss = 0.
         d_loss = 0.
         nmap_loss = 0.
@@ -388,7 +389,6 @@ def validate_with_gt(args, val_loader, mvdnet, depth_cons, epoch, output_writers
             mask = (tgt_depth <= args.nlabel*args.mindepth) & (tgt_depth >= args.mindepth) & (tgt_depth == tgt_depth)
             if not mask.any():
                 continue
-
 
             output_depth1_ = torch.squeeze(output_depth1.data.cpu(),1)
             output_depth_ = torch.squeeze(output_depth.data.cpu(),1)

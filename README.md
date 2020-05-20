@@ -1,10 +1,12 @@
 # Normal Assisted Stereo Depth Estimation
 
-## Introduction
-
-<p align="center">
+<!-- <p align="center">
     <img src="teaser.gif" alt="Image" width="512" height="512" />
 </p>
+ -->
+
+## Introduction
+
 
 Accurate stereo depth estimation plays a critical role in various 3D tasks in both indoor and outdoor environments. Recently, learning-based multi-view stereo methods have demonstrated competitive performance with limited number of views. However, in challenging scenarios, especially when building cross-view correspondences is hard, these methods still cannot produce satisfying results. In this paper, we study how to enforce the consistency between surface normal and depth at training time to improve the performance. We couple the learning of a multi-view normal estimation module and a multi-view depth estimation module. In addition, we propose a novel consistency loss to train an independent consistency module that refines the depths from depth/normal pairs. We find that the joint learning can improve both the prediction of normal and depth, and the accuracy and smoothness can be further improved by enforcing the consistency. Experiments on MVS, SUN3D, RGBD and Scenes11 demonstrate the effectiveness of our method and state-of-the-art performance.
 
@@ -99,6 +101,19 @@ The following dockers are suggested:
 
 * Download pretrained [models](LINK) in pretrained folder
 
+
+### Testing
+    
+* Test with the pretrained model without consistency module
+
+    * DeMoN datasets
+        ```python train.py ./dataset/train --ttype2 test.txt -e -np --pretrained-mvdn pretrained/mvdnet_demon.pth.tar  --print-freq 1```
+    * SUN3D
+        ```python train.py ./dataset/train --ttype2 sun_test.txt -e --pretrained-mvdn pretrained/mvdnet_sun3d.pth.tar  --print-freq 1```
+    * ScanNet
+        ```python train.py ./scannet --ttype2 test.txt --mindepth 0.25 -e --pretrained-mvdn pretrained/mvdnet_scannet.pth.tar  --print-freq 1```
+
+
 ### Training
 * Download the preprocessed [DTU training data](https://drive.google.com/file/d/1eDjh-_bxKKnEuz5h-HXS7EDJn59clx6V/view) from [MVSNet](https://github.com/YoYo000/MVSNet) and unzip it to ```data/dtu```.
 * Train the network
@@ -107,15 +122,6 @@ The following dockers are suggested:
   
   You could change the batch size in the configuration file according to your own pc.
 
-### Testing
-* Download the [rectified images](http://roboimagedata2.compute.dtu.dk/data/MVS/Rectified.zip) from [DTU benchmark](http://roboimagedata.compute.dtu.dk/?page_id=36) and unzip it to ```data/dtu/Eval```.
-* Test with your own model
-
-    ```python pointmvsnet/test.py --cfg configs/dtu_wde3.yaml```
-    
-* Test with the pretrained model
-
-    ```python pointmvsnet/test.py --cfg configs/dtu_wde3.yaml TEST.WEIGHT outputs/dtu_wde3/model_pretrained.pth```
 
 ### Acknowledgement
 The code heavily relies on code from [DPSNet](https://github.com/sunghoonim/DPSNet/) (https://github.com/sunghoonim/DPSNet/)

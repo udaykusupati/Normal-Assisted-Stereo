@@ -15,10 +15,11 @@ def convtext(in_planes, out_planes, kernel_size = 3, stride = 1, dilation = 1):
     )
 
 class MVDNet(nn.Module):
-    def __init__(self, nlabel, mindepth):
+    def __init__(self, nlabel, mindepth, no_pool = False):
         super(MVDNet, self).__init__()
         self.nlabel = nlabel
         self.mindepth = mindepth
+        self.no_pool = no_pool
     
 
         self.feature_extraction = feature_extraction()
@@ -90,7 +91,7 @@ class MVDNet(nn.Module):
                 m.weight.data.fill_(1)
                 m.bias.data.zero_()
 
-    def forward(self, ref, targets, pose, intrinsics, intrinsics_inv, no_pool = False, factor = None):
+    def forward(self, ref, targets, pose, intrinsics, intrinsics_inv, factor = None):
         intrinsics4 = intrinsics.clone()
         intrinsics_inv4 = intrinsics_inv.clone()
         intrinsics4[:,:2,:] = intrinsics4[:,:2,:] / 4
@@ -184,7 +185,7 @@ class MVDNet(nn.Module):
         wc = torch.cat((wc.clone(),cost_in), dim = 1) #B,ch+3,D,H,W
         wc = wc.contiguous()
         
-        if no_pool:
+        if self.no_pool:
             wc0 = self.pool1(self.wc0(wc))
         else:
             wc0 = self.pool3(self.pool2(self.pool1(self.wc0(wc))))
