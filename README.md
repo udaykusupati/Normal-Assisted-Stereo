@@ -1,10 +1,17 @@
 # Normal Assisted Stereo Depth Estimation
 
+[Uday Kusupati\*](https://www.cs.utexas.edu/~uday), [Shuo Cheng](https://sites.google.com/view/shuocheng), [Rui Chen](https://cray695.wixsite.com/mysite) and [Hao Su](http://cseweb.ucsd.edu/~haosu/)
+
+CVPR 2020
+
+\* corresponding author
 <p align="center">
     <img src="teaser.gif" alt="Image" width="512" height="512" />
 </p>
 
-[Uday Kusupati](https://www.cs.utexas.edu/~uday), [Shuo Cheng](https://sites.google.com/view/shuocheng), [Rui Chen](https://cray695.wixsite.com/mysite), [Hao Su](http://cseweb.ucsd.edu/~haosu/)
+[Uday Kusupati](https://www.cs.utexas.edu/~uday), [Shuo Cheng](https://sites.google.com/view/shuocheng), [Rui Chen](https://cray695.wixsite.com/mysite) and [Hao Su](http://cseweb.ucsd.edu/~haosu/)
+
+CVPR 2020
 
 ## Introduction
 
