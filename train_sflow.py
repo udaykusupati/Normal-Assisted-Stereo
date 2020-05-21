@@ -283,7 +283,7 @@ def train(args, train_loader, mvdnet, optimizer, epoch_size, train_writer, epoch
 
         targetimg = inverse_warp(ref_imgs_var[0], tgt_depth_var.unsqueeze(1), pose[:,0], intrinsics_var, intrinsics_inv_var)#[B,CH,D,H,W,1]
 
-        outputs = mvdnet(tgt_img_var, ref_imgs_var, pose, intrinsics_var, intrinsics_inv_var, no_pool = args.no_pool, factor = factor.unsqueeze(1))
+        outputs = mvdnet(tgt_img_var, ref_imgs_var, pose, intrinsics_var, intrinsics_inv_var, factor = factor.unsqueeze(1))
         
         nmap = outputs[2].permute(0,3,1,2)
         depths = outputs[0:2]
@@ -383,7 +383,7 @@ def validate_with_gt(args, val_loader, mvdnet, epoch, output_writers=[]):
             if not mask.any():
                 continue
 
-            output_depth, nmap = mvdnet(tgt_img_var, ref_imgs_var, pose, intrinsics_var, intrinsics_inv_var, no_pool = True, factor = factor.unsqueeze(1))
+            output_depth, nmap = mvdnet(tgt_img_var, ref_imgs_var, pose, intrinsics_var, intrinsics_inv_var, factor = factor.unsqueeze(1))
             output_disp = args.nlabel*args.mindepth/(output_depth)  
             if args.dataset == 'sceneflow':
                 output_disp = (args.nlabel*args.mindepth)*3/(output_depth)  

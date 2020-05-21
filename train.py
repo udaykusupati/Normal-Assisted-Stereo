@@ -56,7 +56,7 @@ parser.add_argument('--print-freq', default=10, type=int,
                     metavar='N', help='print frequency')
 parser.add_argument('-e', '--evaluate', dest='evaluate', action='store_true',
                     help='evaluate model on validation set')
-parser.add_argument('--pretrained-mvdn', dest='pretrained_mvdn', default='None', metavar='PATH',
+parser.add_argument('--pretrained-mvdn', dest='pretrained_mvdn', default=None, metavar='PATH',
                     help='path to pre-trained mvdnet model')
 parser.add_argument('--pretrained-cons', dest='pretrained_cons', default=None, metavar='PATH',
                     help='path to pre-trained cons_net model')
@@ -270,7 +270,6 @@ def train(args, train_loader, mvdnet, depth_cons, cons_loss_, optimizer, epoch_s
         pose = torch.cat(ref_poses_var,1)
 
         
-        factor = torch.ones((tgt_depth_var.size(0),1,1)).type_as(tgt_depth_var)
         # get mask
         mask = (tgt_depth_var <= args.nlabel*args.mindepth) & (tgt_depth_var >= args.mindepth) & (tgt_depth_var == tgt_depth_var)
         mask.detach_()

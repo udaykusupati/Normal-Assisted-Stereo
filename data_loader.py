@@ -126,8 +126,8 @@ class SequenceFolder(data.Dataset):
 
 	def crawl_folders(self, sequence_length):
 		if self.dataset == 'scannet':
-			if os.path.exists("./scannet/scan_"+self.ttype[:-4]+"new_dump.pkl"):
-				sequence_set = pickle.load(open("./scannet/scan_"+self.ttype[:-4] + "new_dump.pkl",'rb'))
+			if os.path.exists("./scannet/scan_"+self.ttype[:-4]+"_dump.pkl"):
+				sequence_set = pickle.load(open("./scannet/scan_"+self.ttype[:-4] + "_dump.pkl",'rb'))
 			else:
 				sequence_set = []
 				imgs = np.genfromtxt('scannet/new_orders/'+self.ttype[:-4]+"/"+self.ttype[:-4]+'new_orders_v.list', delimiter = ' ', dtype = 'unicode')
@@ -148,7 +148,7 @@ class SequenceFolder(data.Dataset):
 						sample['ref_depths'].append('./scannet/'/scene/'depth/'/(j[:-4]+'.npy'))
 						sample['pose_src'].append('./scannet/'/scene/'pose/'/(j[:-4]+'.txt'))
 					sequence_set.append(sample)
-				#pickle.dump(sequence_set,open("./scannet/scan_"+self.ttype[:-4]+"new_dump.pkl",'wb'))
+				#pickle.dump(sequence_set,open("./scannet/scan_"+self.ttype[:-4]+"_dump.pkl",'wb'))
 		elif self.dataset == 'sceneflow':
 			self.scenes = set()
 			if os.path.exists("./sceneflow/sflow_" + self.ttype[:-4] + "_dump.pkl"):

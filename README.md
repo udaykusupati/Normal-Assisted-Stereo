@@ -1,9 +1,9 @@
 # Normal Assisted Stereo Depth Estimation
 
-<!-- <p align="center">
+<p align="center">
     <img src="teaser.gif" alt="Image" width="512" height="512" />
 </p>
- -->
+
 
 ## Introduction
 
@@ -46,7 +46,7 @@ The following dockers are suggested:
     * [DeMoN datasets](https://github.com/lmb-freiburg/demon)
 
         * Follow data preparation instructions from [DPSNet](https://github.com/sunghoonim/DPSNet)
-        * Download normal map data from [demon_normals.tar.gz](LINK) and extract inside dataset directory
+        * Download normal map data from [demon_normals.tar.gz](https://drive.google.com/drive/folders/1PTi37xlPxqhHNyxs_4xiGGj1OsnTQhWD?usp=sharing) and extract inside dataset directory
 
         ```
         |-- dataset
@@ -58,8 +58,8 @@ The following dockers are suggested:
 
     * [ScanNet](http://www.scan-net.org/)
 
-        * Download [scannet.tar.gz](LINK)
-        * Download [new_orders.zip](LINK) and extract in scannet directory
+        * Download [scannet.tar.gz](https://drive.google.com/drive/folders/1PTi37xlPxqhHNyxs_4xiGGj1OsnTQhWD?usp=sharing)
+        * Download [new_orders.zip](https://drive.google.com/drive/folders/1PTi37xlPxqhHNyxs_4xiGGj1OsnTQhWD?usp=sharing) and extract in scannet directory
 
         ```
         |-- dataset
@@ -76,7 +76,7 @@ The following dockers are suggested:
     * [SceneFlow datasets](https://lmb.informatik.uni-freiburg.de/resources/datasets/SceneFlowDatasets.en.html)
 
         * Follow dataset download and preparation instructions for "FlyingThings3D", "Driving" and "Monkaa" datasets from [GANet](https://github.com/feihuzhang/GANet) and create sceneflow directory.
-        * Download [sceneflow_normals.tar.gz](LINK) and extract in sceneflow directory
+        * Download [sceneflow_normals.tar.gz](https://drive.google.com/drive/folders/1PTi37xlPxqhHNyxs_4xiGGj1OsnTQhWD?usp=sharing) and extract in sceneflow directory
 
         ```
         |-- dataset
@@ -99,30 +99,59 @@ The following dockers are suggested:
                 |-- sceneflow_train.list
         ```
 
-* Download pretrained [models](LINK) in pretrained folder
+* Download pretrained [models](https://drive.google.com/drive/folders/1PTi37xlPxqhHNyxs_4xiGGj1OsnTQhWD?usp=sharing) in pretrained folder
 
 
 ### Testing
     
 * Test with the pretrained model without consistency module
-
     * DeMoN datasets
-        ```python train.py ./dataset/train --ttype2 test.txt -e -np --pretrained-mvdn pretrained/mvdnet_demon.pth.tar  --print-freq 1```
-    * SUN3D
-        ```python train.py ./dataset/train --ttype2 sun_test.txt -e --pretrained-mvdn pretrained/mvdnet_sun3d.pth.tar  --print-freq 1```
-    * ScanNet
-        ```python train.py ./scannet --ttype2 test.txt --mindepth 0.25 -e --pretrained-mvdn pretrained/mvdnet_scannet.pth.tar  --print-freq 1```
 
+        ```python train.py ./dataset/train --ttype2 test.txt -e -np --pretrained-mvdn pretrained/mvdnet_demon.pth.tar --print-freq 1```
+    * SUN3D
+
+        ```python train.py ./dataset/train --ttype2 sun_test.txt -e --pretrained-mvdn pretrained/mvdnet_sun3d.pth.tar --print-freq 1```
+    * ScanNet
+
+        ```python train.py ./scannet --dataset scannet --ttype2 test.txt --mindepth 0.25 -e --pretrained-mvdn pretrained/mvdnet_scannet.pth.tar --print-freq 1```
+    * SceneFlow datasets
+    
+        ```python train_sflow.py ./sceneflow --dataset sceneflow --ttype2 test.txt -e --pretrained-mvdn pretrained/mvdnet_sflow.pth.tar --print-freq 1```
+
+* Test with the pretrained model with consistency module
+    * SUN3D
+
+        ```python train.py ./dataset/train --ttype2 sun_test.txt -e --pretrained-mvdn pretrained/mvdnet_sun3d.pth.tar --pretrained-cons pretrained/cons_sun3d.pth.tar -tc --print-freq 1```
+    * ScanNet
+
+        ```python train.py ./scannet --dataset scannet --ttype2 test.txt --mindepth 0.25 -e --pretrained-mvdn pretrained/mvdnet_scannet.pth.tar --pretrained-cons pretrained/cons_scannet.pth.tar -tc --print-freq 1```
 
 ### Training
-* Download the preprocessed [DTU training data](https://drive.google.com/file/d/1eDjh-_bxKKnEuz5h-HXS7EDJn59clx6V/view) from [MVSNet](https://github.com/YoYo000/MVSNet) and unzip it to ```data/dtu```.
-* Train the network
 
-    ```python pointmvsnet/train.py --cfg configs/dtu_wde3.yaml```
-  
-  You could change the batch size in the configuration file according to your own pc.
+* Training without the consistency module
+    * DeMoN datasets
+
+        ```python train.py ./dataset/train```
+    * SUN3D
+
+        ```python train.py ./dataset/train --ttype sun_train.txt --ttype2 sun_val.txt```
+    * ScanNet
+
+        ```python train.py ./scannet --dataset scannet --mindepth 0.25```
+    * SceneFlow datasets
+
+        The primary aim of training on SceneFlow datasets is to compare with [GANet](https://github.com/feihuzhang/GANet), an effective cost aggregation method and we compare it with the cost-aggregation implicitly caused by normal supervision. We set the disparity range to 192 similar to them but we only use 64 levels (sampled uniformly across 192 levels) due to memory constraints. We also set mindepth to 5.45 assuming the focal length to be 1050.0 mm, but for a few scenes with 450.mm it is adjusted appropriately (factor parameter in MVDNet.py)
+
+        ```python train.py ./sceneflow --dataset sceneflow```
+* Training with the consistency module
+    * SUN3D
+
+        ```python train.py ./dataset/train --ttype sun_train.txt --ttype2 sun_val.txt -tc```
+    * ScanNet
+
+        ```python train.py ./scannet --dataset scannet --mindepth 0.25 -tc```
+
 
 
 ### Acknowledgement
 The code heavily relies on code from [DPSNet](https://github.com/sunghoonim/DPSNet/) (https://github.com/sunghoonim/DPSNet/)
-    
