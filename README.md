@@ -15,7 +15,7 @@ If you find this project useful for your research, please cite:
 @InProceedings{Kusupati20,
   author={Kusupati, Uday and Cheng, Shuo and Chen, Rui and Su, Hao},
   title={Normal Assisted Stereo Depth Estimation},
-  booktitle = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  booktitle = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
   month = {June},
   year = {2020}
 }
