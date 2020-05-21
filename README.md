@@ -3,7 +3,7 @@
 <p align="center">
     <img src="teaser.gif" alt="Image" width="512" height="512" />
 </p>
-
+[Uday Kusupati](https://www.cs.utexas.edu/~uday), [Shuo Cheng](https://sites.google.com/view/shuocheng), [Rui Chen](https://cray695.wixsite.com/mysite), [Hao Su](http://cseweb.ucsd.edu/~haosu/)
 
 ## Introduction
 
@@ -13,8 +13,8 @@ Accurate stereo depth estimation plays a critical role in various 3D tasks in bo
 If you find this project useful for your research, please cite: 
 ```
 @InProceedings{Kusupati20,
-  author={Kusupati, Uday and Cheng, Shuo and Chen, Rui and Su, Hao},
-  title={Normal Assisted Stereo Depth Estimation},
+  author = {Kusupati, Uday and Cheng, Shuo and Chen, Rui and Su, Hao},
+  title = {Normal Assisted Stereo Depth Estimation},
   booktitle = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
   month = {June},
   year = {2020}
