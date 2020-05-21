@@ -12,11 +12,12 @@ Accurate stereo depth estimation plays a critical role in various 3D tasks in bo
 
 If you find this project useful for your research, please cite: 
 ```
-@article{kusupati2019normal,
-  title={Normal Assisted Stereo Depth Estimation},
+@article{Kusupati20,
   author={Kusupati, Uday and Cheng, Shuo and Chen, Rui and Su, Hao},
-  journal={arXiv preprint arXiv:1911.10444},
-  year={2019}
+  title={Normal Assisted Stereo Depth Estimation},
+  booktitle = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  month = {June},
+  year = {2020}
 }
 ```
 
@@ -115,7 +116,7 @@ The following dockers are suggested:
 
         ```python train.py ./scannet --dataset scannet --ttype2 test.txt --mindepth 0.25 -e --pretrained-mvdn pretrained/mvdnet_scannet.pth.tar --print-freq 1```
     * SceneFlow datasets
-    
+
         ```python train_sflow.py ./sceneflow --dataset sceneflow --ttype2 test.txt -e --pretrained-mvdn pretrained/mvdnet_sflow.pth.tar --print-freq 1```
 
 * Test with the pretrained model with consistency module
