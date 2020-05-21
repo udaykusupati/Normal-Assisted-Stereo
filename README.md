@@ -12,7 +12,7 @@ Accurate stereo depth estimation plays a critical role in various 3D tasks in bo
 
 If you find this project useful for your research, please cite: 
 ```
-@article{Kusupati20,
+@InProceedings{Kusupati20,
   author={Kusupati, Uday and Cheng, Shuo and Chen, Rui and Su, Hao},
   title={Normal Assisted Stereo Depth Estimation},
   booktitle = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
