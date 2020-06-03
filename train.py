@@ -386,6 +386,8 @@ def validate_with_gt(args, val_loader, mvdnet, depth_cons, epoch, output_writers
                 output_depth = outputs[:,0].unsqueeze(1)
             
             mask = (tgt_depth <= args.nlabel*args.mindepth) & (tgt_depth >= args.mindepth) & (tgt_depth == tgt_depth)
+            #mask = (tgt_depth <= 10) & (tgt_depth >= args.mindepth) & (tgt_depth == tgt_depth) #for DeMoN testing, to compare against DPSNet you might need to turn on this for fair comparison
+
             if not mask.any():
                 continue
 
@@ -413,12 +415,14 @@ def validate_with_gt(args, val_loader, mvdnet, depth_cons, epoch, output_writers
             test_errors.update(test_errors_)
             test_errors1.update(test_errors1_)
 
-
             # measure elapsed time
             batch_time.update(time.time() - end)
             end = time.time()
             if i % args.print_freq == 0 or i == len(val_loader)-1:
-                print('valid: Time {} Prev Error {:.4f}({:.4f}) Abs Error {:.4f} ({:.4f}) Prev angle Error {:.4f} ({:.4f}) Abs angle Error {:.4f} ({:.4f}) Iter {}/{}'.format(batch_time, test_errors1.val[0], test_errors1.avg[0], test_errors.val[0], test_errors.avg[0], test_errors1.val[-1], test_errors1.avg[-1], test_errors.val[-1], test_errors.avg[-1], i, len(val_loader)))
+                if args.train_cons:
+                    print('valid: Time {} Prev Error {:.4f}({:.4f}) Curr Error {:.4f} ({:.4f}) Prev angle Error {:.4f} ({:.4f}) Curr angle Error {:.4f} ({:.4f}) Iter {}/{}'.format(batch_time, test_errors1.val[0], test_errors1.avg[0], test_errors.val[0], test_errors.avg[0], test_errors1.val[-1], test_errors1.avg[-1], test_errors.val[-1], test_errors.avg[-1], i, len(val_loader)))
+                else:
+                    print('valid: Time {} Rel Error {:.4f} ({:.4f}) Angle Error {:.4f} ({:.4f}) Iter {}/{}'.format(batch_time, test_errors.val[0], test_errors.avg[0], test_errors.val[-1], test_errors.avg[-1], i, len(val_loader)))
             if args.output_print:
                 output_dir= Path(args.output_dir)
                 if not os.path.isdir(output_dir):
