@@ -39,6 +39,8 @@ The following dockers are suggested:
 - pytorch/pytorch:1.0.1-cuda10.0-cudnn7-runtime
 
 ### Preparation
+***Update 2024***
+Unfortunately there has been a data loss and most of the prepared training data we provide is lost. The data preparation is still explained in the paper and the pretrained models can still be found from the link mentioned below. We apologize for the inconvenience.
 * Check out the source code 
 
     ```git clone https://github.com/udaykusupati/NAS.git && cd NAS```
@@ -63,7 +65,7 @@ The following dockers are suggested:
     * [ScanNet](http://www.scan-net.org/)
 
         * Download [scannet.tar.gz](https://drive.google.com/drive/folders/1PTi37xlPxqhHNyxs_4xiGGj1OsnTQhWD?usp=sharing)
-        * Download [new_orders.zip](https://drive.google.com/drive/folders/1PTi37xlPxqhHNyxs_4xiGGj1OsnTQhWD?usp=sharing) and extract in scannet directory
+        * Download [new_orders.zip](https://drive.google.com/file/d/1ZKjrE4TGv9B1CKDlZGJyX0blcfZDzcUk/view?usp=sharing) and extract in scannet directory
 
         ```
         |-- dataset
@@ -103,7 +105,7 @@ The following dockers are suggested:
                 |-- sceneflow_train.list
         ```
 
-* Download pretrained [models](https://drive.google.com/drive/folders/1PTi37xlPxqhHNyxs_4xiGGj1OsnTQhWD?usp=sharing) in pretrained folder
+* Download pretrained [models](https://drive.google.com/drive/folders/1ox_yehuu-m_3lk49aqLHZnJze1dh7pAJ?usp=sharing) in pretrained folder
 
 
 ### Testing
